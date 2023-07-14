@@ -5,8 +5,12 @@ ApiProduct Developed to update knowledge with the new SpringBoot in version 3.0
 
 Details of its construction: This product API meets the 4 maturity levels of a Restfull API according to the model proposed by Richardson, with it it is possible to CREATE/Change/View/Delete products from a list according to good programming practices and project architecture .
 
-Objective of its construction: This project was created with the intention of studying the new functionalities of spring, as well as the architectural patterns in the development of the RestFull API according to the Richardson model, meeting the 4 levels of maturity of the application.
+Purpose of its construction:
+This project was created with the intention of studying the novelties of spring,
+as well as architectural patterns in RestFull API developments according to the Richardson model, meeting the 4 levels of application maturity.
+
 -----------------------------------------------------------------------------------------------------------
+
 Português:
 ApiProduct Desenvolvida para atualizar conhecimentos com o novo SpringBoot na versão 3.0
 
