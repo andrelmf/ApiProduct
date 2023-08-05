@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.springboot.dtos.ProductRecordDto;
@@ -23,11 +24,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 // as camadas de repositório e controller, porém não foi utilizada netes projeto.
 @RestController
 public class ProductController {
-//    Instância da Interface ProductRepositoy para poder utilizar os métodos JPA nessa classe controller.
+    //    Instância da Interface ProductRepositoy para poder utilizar os métodos JPA nessa classe controller.
     @Autowired
     ProductRepository productRepository;
 
-//  Retorno de todos os produtos da lista.
+    //  Retorno de todos os produtos da lista.
     @GetMapping("/products")
     public ResponseEntity<List<ProductModel>> getAllProducts(){
         List<ProductModel> productList = productRepository.findAll();
@@ -39,10 +40,12 @@ public class ProductController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
-//  Retorno de um produto da lista.
+    //  Retorno de um produto da lista.
     @GetMapping("/products/{id}")
     public ResponseEntity<Object> getUniqueProduct(@PathVariable(value = "id") UUID id){
         Optional<ProductModel> productSelected = productRepository.findById(id);
+//      Lembrete : O Optional é uma forma de container que pode ou não conter um valor não nulo. Ele força o desenvolvedor a tratar explicitamente o caso de
+//      um valor estar ausente,melhorando a robustez do código.
         if (productSelected.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado.");
         }
@@ -50,7 +53,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productSelected.get());
 
     }
-//  Insere um produto na lista.
+    //  Insere um produto na lista.
     @PostMapping("/products")
     public ResponseEntity<ProductModel> saveProduct(@RequestBody @Valid ProductRecordDto productRecordDto) {
         var productModel = new ProductModel();
@@ -58,7 +61,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productRepository.save(productModel));
     }
 
-//  Altera um produto na lista com base no ID informado.
+    //  Altera um produto na lista com base no ID informado.
     @PutMapping("/products/{id}")
     public ResponseEntity<Object>updateProduct(@PathVariable(value = "id") UUID id,
                                                @RequestBody @Valid ProductRecordDto productRecordDto) {
@@ -70,7 +73,7 @@ public class ProductController {
         BeanUtils.copyProperties(productRecordDto, productModel);
         return ResponseEntity.status(HttpStatus.OK).body(productRepository.save(productModel));
     }
-//  Deleta um produto na lista com base no ID informado.
+    //  Deleta um produto na lista com base no ID informado.
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Object>deleteProduct(@PathVariable(value="id") UUID id){
         Optional<ProductModel> productSelected = productRepository.findById(id);
@@ -81,5 +84,8 @@ public class ProductController {
         productRepository.delete(productSelected.get());
         return ResponseEntity.status(HttpStatus.OK).body("Registro de produto deletado.");
     }
+
+
+
 
 }
